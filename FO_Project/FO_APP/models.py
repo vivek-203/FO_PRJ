@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+
 class Product(models.Model):
     id= models.IntegerField(primary_key=True)
     name = models.CharField(max_length=100)
@@ -13,8 +14,7 @@ class Product(models.Model):
  
 class CartItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField(default=0)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
     date_added = models.DateTimeField(auto_now_add=True)
  
     def __str__(self):
@@ -28,4 +28,11 @@ class Dish(models.Model):
     name = models.CharField(max_length=255)
     type = models.CharField(max_length=255)
     dish = models.CharField(max_length= 255)
+    
+class Customer(models.Model):
+    username= models.CharField(max_length=255)
+    email=models.CharField(max_length=255)
+    password=models.CharField(max_length=255)
+    address=models.CharField(max_length=255)
+    phone=models.PositiveIntegerField(default=0)
     
