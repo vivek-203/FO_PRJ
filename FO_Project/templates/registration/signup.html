@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Signup Page</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: #f8f9fa;
+      }
+
+      .signup-container {
+        background-color: #ffffff;
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
+        width: 400px;
+        max-width: 90%;
+        text-align: center;
+      }
+
+      .signup-container h2 {
+        margin-bottom: 30px;
+        color: #333333;
+        font-weight: bold;
+        font-size: 28px;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+        text-align: left;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        color: #555555;
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        transition: border-color 0.3s ease;
+      }
+
+      .form-group input:focus {
+        border-color: #007bff;
+        outline: none;
+      }
+
+      .signup-btn {
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        border: none;
+        border-radius: 5px;
+        color: #ffffff;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+      }
+
+      .signup-btn:hover {
+        background-color: #0056b3;
+      }
+
+      .error-message {
+        color: red;
+        text-align: center;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="signup-container">
+      <h2>Signup</h2>
+      <form id="signup-form" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" required />
+        </div>
+        <div class="form-group">
+          <label for="password1">Password</label>
+          <input type="password" id="password1" name="password1" required />
+        </div>
+        <div class="form-group">
+          <label for="password2">Confirm Password</label>
+          <input type="password" id="password2" name="password2" required />
+        </div>
+        <button type="submit" class="signup-btn">Signup</button>
+      </form>
+      <div class="error-message" id="error-message"></div>
+    </div>
+
+    <script>
+      document
+        .getElementById("signup-form")
+        .addEventListener("submit", function (event) {
+          var username = document.getElementById("username").value;
+          var email = document.getElementById("email").value;
+          var password1 = document.getElementById("password1").value;
+          var password2 = document.getElementById("password2").value;
+
+          if (
+            username === "" ||
+            email === "" ||
+            password1 === "" ||
+            password2 === ""
+          ) {
+            event.preventDefault();
+            document.getElementById("error-message").innerText =
+              "Please fill out all fields.";
+          } else if (password1 !== password2) {
+            event.preventDefault();
+            document.getElementById("error-message").innerText =
+              "Passwords do not match.";
+          }
+        });
+    </script>
+  </body>
+</html>

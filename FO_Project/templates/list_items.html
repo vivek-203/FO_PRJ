@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{ title }}</title>
+    <style>
+      /* General Styles */
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+        margin: 0;
+        padding: 0;
+      }
+
+      /* Header Styles */
+      header {
+        background-color: #333;
+        color: #fff;
+        padding: 10px 0;
+        text-align: center;
+      }
+
+      /* Navigation Styles */
+      nav {
+        background-color: #444;
+        padding: 10px 0;
+        text-align: center;
+      }
+
+      nav ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      nav ul li {
+        display: inline;
+        margin-right: 20px;
+      }
+
+      nav ul li a {
+        color: #fff;
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      nav ul li a:hover {
+        color: #ff6347;
+      }
+
+      /* Form Styles */
+      form {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+      }
+
+      input[type="text"],
+      input[type="submit"],
+      select {
+        padding: 8px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        margin-right: 10px;
+        font-size: 14px;
+      }
+
+      select {
+        min-width: 150px;
+      }
+
+      input[type="submit"] {
+        background-color: #333;
+        color: #fff;
+        cursor: pointer;
+        border: none;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #555;
+      }
+
+      /* Optional: Adjust styles as needed */
+      input[type="text"]:focus,
+      input[type="submit"]:focus,
+      select:focus {
+        outline: none;
+        border-color: #ff6347;
+      }
+
+      /* Optional: Add more specific styles if required */
+      input[name="name"] {
+        width: 200px; /* Example width */
+      }
+
+      select[name="t_type"] {
+        width: 180px; /* Example width */
+      }
+
+      select[name="category"] {
+        width: 200px; /* Example width */
+      }
+
+      input[type="text"],
+      input[type="submit"],
+      select {
+        padding: 6px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        margin-right: 10px;
+      }
+
+      input[type="submit"] {
+        background-color: #333;
+        color: #fff;
+        cursor: pointer;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #555;
+      }
+
+      /* Table Style */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+        background-color: #fff;
+      }
+
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+
+      th {
+        background-color: #f2f2f2;
+        color: #333;
+      }
+
+      tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+
+      /* Delete Button Style */
+      .delete-btn {
+        background-color: #ff6347;
+        color: #fff;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        text-decoration: none;
+      }
+
+      .delete-btn:hover {
+        background-color: #d1493e;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Food List</h1>
+    </header>
+    <nav>
+      <ul>
+        <li><a href="{% url 'index' %}">Home</a></li>
+        <li><a href="{% url 'menu' %}">Menu</a></li>
+        <li><a href="{% url 'about' %}">About</a></li>
+        <li><a href="{% url 'contact' %}">Contact</a></li>
+        <li><a href="{% url 'login' %}">Login</a></li>
+        <li><a href="{% url 'cart' %}">Cart</a></li>
+        {% if request.user.is_superuser %}
+        <li><a href="{% url 'add_items' %}">Add Items</a></li>
+        <li><a href="{% url 'list_items' %}">List Items</a></li>
+        <li><a href="{% url 'profiles' %}">Customer Profiles</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+    <form method="POST" action="">
+      {% csrf_token %}
+      <input type="text" name="name" placeholder="Dish Name" />
+      <select name="t_type">
+        <option value="">Supply Time Type</option>
+        <option value="Breakfast">Breakfast</option>
+        <option value="Lunch">Lunch</option>
+        <option value="Dinner">Dinner</option>
+      </select>
+      <select name="category">
+        <option value="">Category Type</option>
+        <option value="Soups-Veg">Soups-Veg</option>
+        <option value="Soups-Non Veg">Soups-Non Veg</option>
+        <option value="Starters-Egg">Starters-Egg</option>
+        <option value="Starters-Veg">Starters-Veg</option>
+        <option value="Starters-Non Veg Special">
+          Starters-Non Veg Special
+        </option>
+        <option value="Non Veg Starters-Chicken">
+          Non Veg Starters-Chicken
+        </option>
+        <option value="Non Veg Starters-Mutton">Non Veg Starters-Mutton</option>
+        <option value="SeaFood Starters">SeaFood Starters</option>
+        <option value="Rice & Noodles-Veg">Rice & Noodles-Veg</option>
+        <option value="Rice & Noodles-Non Veg">Rice & Noodles-Non Veg</option>
+        <option value="Rice & Noodles-Egg">Rice & Noodles-Egg</option>
+        <option value="Veg Gravies">Veg Gravies</option>
+        <option value="Non Veg Gravies">Non Veg Gravies</option>
+        <option value="Biriyani Varieties">Biriyani Varieties</option>
+        <option value="Dosa Varities">Dosa Varities</option>
+        <option value="Breads">Breads</option>
+        <option value="MilkShakes">MilkShakes</option>
+        <option value="Fresh Juices">Fresh Juices</option>
+        <option value="Desserts">Desserts</option>
+        <option value="Sodas">Sodas</option>
+      </select>
+
+      <input type="submit" value="Search" />
+    </form>
+    <table>
+      <thead>
+        <tr>
+          <th>No.</th>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Supply Time</th>
+          <th>Category</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in queryset %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ item.name }}</td>
+          <td>{{ item.price }}</td>
+          <td>{{ item.t_type }}</td>
+          <td>{{ item.category }}</td>
+          <td>
+            <a href="{% url 'delete_items' item.id %}" class="delete-btn">🗑</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>

@@ -33,6 +33,21 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'css/util.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
 <!--===============================================================================================-->
+<style>
+	.add-to-cart-btn {
+    background-color: #008CBA;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.add-to-cart-btn:hover {
+    background-color: #005f7f;
+}
+</style>
 </head>
 <body class="animsition">
 
@@ -61,10 +76,7 @@
 									<a href="{% url 'menu' %}">Menu</a>
 								</li>
 
-								<li>
-									<a href="{% url 'reservation' %}">Reservation</a>
-								</li>
-
+								
 								
 								<li>
 									<a href="{% url 'about' %}">About</a>
@@ -81,6 +93,26 @@
 								<li>
 									<a href="{% url 'cart' %}">Cart</a>
 								</li>
+								 <li>
+                    {% if request.user.is_superuser %}
+                    <a href="{% url 'add_items' %}">Add Items</a>
+                    {% endif %}
+                  </li>
+
+                   <li>
+                    {% if request.user.is_superuser %}
+                    <a href="{% url 'list_items' %}">list items</a>
+                    {% endif %}
+                  </li>
+
+                  <li>
+                    {% if request.user.is_superuser %}
+                    <a href="{% url 'profiles' %}">customer profiles</a>
+                    {% endif %}
+                  </li>
+                 
+                  
+
 							</ul>
 						</nav>
 					</div>
@@ -151,57 +183,1343 @@
 			<div class="row">
 				<div class="col-md-10 col-lg-6 p-r-35 p-r-15-lg m-l-r-auto">
 					<div class="wrap-item-mainmenu p-b-22">
+						
 						<h3 class="tit-mainmenu tit10 p-b-25">
-							STARTERS
-						</h3>
-
-						{% for item in list %}
-							{% if item.type == "Starter" %}
-								<div class="item-mainmenu m-b-36">
-									<div class="flex-w flex-b m-b-3">
-										{{ item.name }}
-										<div class="line-item-mainmenu bg3-pattern"></div>
-										
-										<div class="price-item-mainmenu txt22">
-											{{ item.price }}
-										</div>
-										<a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
-											<button>+</button>
-										</a>
-									</div>
-
-									<span class="info-item-mainmenu txt23">
-										{{ item.description }}
-									</span>
-								</div>
-							{% endif %}
-						{% endfor %}
-
-						<h3 class="tit-mainmenu tit10 p-b-25">
-							MAIN COURSE
+							Soups-Veg
 						</h3>
 						
 						{% for item in list %}
-							{% if item.type == "Main" %}
-								<div class="item-mainmenu m-b-36">
-									<div class="flex-w flex-b m-b-3">
-										{{ item.name }}
-										<div class="line-item-mainmenu bg3-pattern"></div>
-										
-										<div class="price-item-mainmenu txt22">
-											{{ item.price }}
-										</div>
-										<a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
-											<button>+</button>
-										</a>
-									</div>
+							{% if item.category == "Soups-Veg" %}
+								{% if dt.time.hour >= 19 and dt.time.hour < 22 and item.t_type == "Dinner" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if dt.time.hour >= 6 and dt.time.hour < 11 and item.t_type == "Breakfast" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if dt.time.hour >= 11 and dt.time.hour < 16 and item.t_type == "Lunch" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if item.t_type == "All" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+        {% endif %}
+    {% endfor %}
 
-									<span class="info-item-mainmenu txt23">
-										{{ item.description }}
-									</span>
-								</div>
-							{% endif %}
-						{% endfor %}
+						<h3 class="tit-mainmenu tit10 p-b-25">
+							Soups-Non Veg
+						</h3>
+						
+						{% for item in list %}
+							{% if item.category == "Soups-Non Veg" %}
+								{% if dt.time.hour >= 19 and dt.time.hour < 22 and item.t_type == "Dinner" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if dt.time.hour >= 6 and dt.time.hour < 11 and item.t_type == "Breakfast" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if dt.time.hour >= 11 and dt.time.hour < 16 and item.t_type == "Lunch" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if item.t_type == "All" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+        {% endif %}
+    {% endfor %}
+								<h3 class="tit-mainmenu tit10 p-b-25">
+							Starters-Egg
+						</h3>
+						{% for item in list %}
+							{% if item.category == "Starters-Egg" %}
+						
+						{% if dt.time.hour >= 19 and dt.time.hour < 22 and item.t_type == "Dinner" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if dt.time.hour >= 6 and dt.time.hour < 11 and item.t_type == "Breakfast" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if dt.time.hour >= 11 and dt.time.hour < 16 and item.t_type == "Lunch" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if item.t_type == "All" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+        {% endif %}
+    {% endfor %}
+
+
+						<h3 class="tit-mainmenu tit10 p-b-25">
+							Starters-Veg
+						</h3>
+						
+						{% for item in list %}
+							{% if item.category == "Starters-Veg" %}
+							{% if dt.time.hour >= 19 and dt.time.hour < 22 and item.t_type == "Dinner" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if dt.time.hour >= 6 and dt.time.hour < 11 and item.t_type == "Breakfast" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if dt.time.hour >= 11 and dt.time.hour < 16 and item.t_type == "Lunch" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if item.t_type == "All" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+        {% endif %}
+    {% endfor %}
+
+						<h3 class="tit-mainmenu tit10 p-b-25">
+							Starters-Non Veg Special
+						</h3>
+						
+						{% for item in list %}
+							{% if item.category == "Starters-Non Veg Special" %}
+								{% if dt.time.hour >= 19 and dt.time.hour < 22 and item.t_type == "Dinner" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if dt.time.hour >= 6 and dt.time.hour < 11 and item.t_type == "Breakfast" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if dt.time.hour >= 11 and dt.time.hour < 16 and item.t_type == "Lunch" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if item.t_type == "All" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+        {% endif %}
+    {% endfor %}
+
+						<h3 class="tit-mainmenu tit10 p-b-25">
+							Non Veg Starters-Chicken
+						</h3>
+						
+						{% for item in list %}
+							{% if item.category == "Non Veg Starters-Chicken" %}
+								{% if dt.time.hour >= 19 and dt.time.hour < 22 and item.t_type == "Dinner" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if dt.time.hour >= 6 and dt.time.hour < 11 and item.t_type == "Breakfast" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if dt.time.hour >= 11 and dt.time.hour < 16 and item.t_type == "Lunch" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if item.t_type == "All" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+        {% endif %}
+    {% endfor %}
+
+
+						<h3 class="tit-mainmenu tit10 p-b-25">
+							Non Veg Starters-Mutton
+						</h3>
+						
+						{% for item in list %}
+							{% if item.category == "Non Veg Starters-Mutton" %}
+								{% if dt.time.hour >= 19 and dt.time.hour < 22 and item.t_type == "Dinner" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if dt.time.hour >= 6 and dt.time.hour < 11 and item.t_type == "Breakfast" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if dt.time.hour >= 11 and dt.time.hour < 16 and item.t_type == "Lunch" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if item.t_type == "All" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+        {% endif %}
+    {% endfor %}
+
+
+
+						<h3 class="tit-mainmenu tit10 p-b-25">
+							SeaFood Starters
+						</h3>
+						
+						{% for item in list %}
+							{% if item.category == "SeaFood Starters" %}
+								{% if dt.time.hour >= 19 and dt.time.hour < 22 and item.t_type == "Dinner" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if dt.time.hour >= 6 and dt.time.hour < 11 and item.t_type == "Breakfast" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if dt.time.hour >= 11 and dt.time.hour < 16 and item.t_type == "Lunch" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if item.t_type == "All" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+        {% endif %}
+    {% endfor %}
+
+
+
+						<h3 class="tit-mainmenu tit10 p-b-25">
+							Rice & Noodles-Veg
+						</h3>
+						
+						{% for item in list %}
+							{% if item.category == "Rice & Noodles-Veg" %}
+								{% if dt.time.hour >= 19 and dt.time.hour < 22 and item.t_type == "Dinner" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if dt.time.hour >= 6 and dt.time.hour < 11 and item.t_type == "Breakfast" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if dt.time.hour >= 11 and dt.time.hour < 16 and item.t_type == "Lunch" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if item.t_type == "All" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+        {% endif %}
+    {% endfor %}
+
+
+
+						<h3 class="tit-mainmenu tit10 p-b-25">
+							Rice & Noodles-Non Veg
+						</h3>
+						
+						{% for item in list %}
+							{% if item.category == "Rice & Noodles-Non Veg" %}
+								{% if dt.time.hour >= 19 and dt.time.hour < 22 and item.t_type == "Dinner" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if dt.time.hour >= 6 and dt.time.hour < 11 and item.t_type == "Breakfast" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if dt.time.hour >= 11 and dt.time.hour < 16 and item.t_type == "Lunch" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if item.t_type == "All" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+        {% endif %}
+    {% endfor %}
+
+
+						<h3 class="tit-mainmenu tit10 p-b-25">
+							Rice & Noodles-Egg
+						</h3>
+						
+						{% for item in list %}
+							{% if item.category == "Rice & Noodles-Egg" %}
+								{% if dt.time.hour >= 19 and dt.time.hour < 22 and item.t_type == "Dinner" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if dt.time.hour >= 6 and dt.time.hour < 11 and item.t_type == "Breakfast" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if dt.time.hour >= 11 and dt.time.hour < 16 and item.t_type == "Lunch" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if item.t_type == "All" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+        {% endif %}
+    {% endfor %}
+
+
+						<h3 class="tit-mainmenu tit10 p-b-25">
+							Veg Gravies
+						</h3>
+						
+						{% for item in list %}
+							{% if item.category == "Veg Gravies" %}
+								{% if dt.time.hour >= 19 and dt.time.hour < 22 and item.t_type == "Dinner" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if dt.time.hour >= 6 and dt.time.hour < 11 and item.t_type == "Breakfast" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if dt.time.hour >= 11 and dt.time.hour < 16 and item.t_type == "Lunch" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if item.t_type == "All" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+        {% endif %}
+    {% endfor %}
+
+
+						<h3 class="tit-mainmenu tit10 p-b-25">
+							Non Veg Gravies
+						</h3>
+						
+						{% for item in list %}
+							{% if item.category == "Non Veg Gravies" %}
+								{% if dt.time.hour >= 19 and dt.time.hour < 22 and item.t_type == "Dinner" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if dt.time.hour >= 6 and dt.time.hour < 11 and item.t_type == "Breakfast" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if dt.time.hour >= 11 and dt.time.hour < 16 and item.t_type == "Lunch" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if item.t_type == "All" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+        {% endif %}
+    {% endfor %}
+
+
+
+
+<h3 class="tit-mainmenu tit10 p-b-25">
+    Biriyani Varieties
+</h3>
+
+
+    {% for item in list %}
+        {% if item.category == "Biriyani Varieties" %}
+			{% if dt.time.hour >= 19 and dt.time.hour < 22 and item.t_type == "Dinner" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if dt.time.hour >= 6 and dt.time.hour < 11 and item.t_type == "Breakfast" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if dt.time.hour >= 11 and dt.time.hour < 16 and item.t_type == "Lunch" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if item.t_type == "All" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+        {% endif %}
+    {% endfor %}
+
+
+
+
+
+
+
+
+						<h3 class="tit-mainmenu tit10 p-b-25">
+							Dosa Varities
+						</h3>
+						
+						{% for item in list %}
+							{% if item.category == "Dosa Varities" %}
+								{% if dt.time.hour >= 19 and dt.time.hour < 22 and item.t_type == "Dinner" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if dt.time.hour >= 6 and dt.time.hour < 11 and item.t_type == "Breakfast" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if dt.time.hour >= 11 and dt.time.hour < 16 and item.t_type == "Lunch" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if item.t_type == "All" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+        {% endif %}
+    {% endfor %}
+
+
+
+
+
+
+						<h3 class="tit-mainmenu tit10 p-b-25">
+							Breads
+						</h3>
+						
+						{% for item in list %}
+							{% if item.category == "Breads" %}
+								{% if dt.time.hour >= 19 and dt.time.hour < 22 and item.t_type == "Dinner" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if dt.time.hour >= 6 and dt.time.hour < 11 and item.t_type == "Breakfast" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if dt.time.hour >= 11 and dt.time.hour < 16 and item.t_type == "Lunch" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if item.t_type == "All" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+        {% endif %}
+    {% endfor %}
+
+
+
+
+
+
+
+
+						<h3 class="tit-mainmenu tit10 p-b-25">
+							MilkShakes
+						</h3>
+						
+						{% for item in list %}
+							{% if item.category == "MilkShakes" %}
+								{% if dt.time.hour >= 19 and dt.time.hour < 22 and item.t_type == "Dinner" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if dt.time.hour >= 6 and dt.time.hour < 11 and item.t_type == "Breakfast" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if dt.time.hour >= 11 and dt.time.hour < 16 and item.t_type == "Lunch" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if item.t_type == "All" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+        {% endif %}
+    {% endfor %}
+
+
+
+						<h3 class="tit-mainmenu tit10 p-b-25">
+							Fresh Juices
+						</h3>
+						
+						{% for item in list %}
+							{% if item.category == "Fresh Juices" %}
+								{% if dt.time.hour >= 19 and dt.time.hour < 22 and item.t_type == "Dinner" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if dt.time.hour >= 6 and dt.time.hour < 11 and item.t_type == "Breakfast" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if dt.time.hour >= 11 and dt.time.hour < 16 and item.t_type == "Lunch" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if item.t_type == "All" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+        {% endif %}
+    {% endfor %}
+
+
+
+
+						<h3 class="tit-mainmenu tit10 p-b-25">
+							DESSERTS
+						</h3>
+						
+						{% for item in list %}
+							{% if item.category == "Desserts" %}
+								{% if dt.time.hour >= 19 and dt.time.hour < 22 and item.t_type == "Dinner" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if dt.time.hour >= 6 and dt.time.hour < 11 and item.t_type == "Breakfast" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if dt.time.hour >= 11 and dt.time.hour < 16 and item.t_type == "Lunch" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if item.t_type == "All" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+        {% endif %}
+    {% endfor %}
+						<h3 class="tit-mainmenu tit10 p-b-25">
+							Sodas
+						</h3>
+						
+						{% for item in list %}
+							{% if item.category == "Sodas" %}
+								{% if dt.time.hour >= 19 and dt.time.hour < 22 and item.t_type == "Dinner" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if dt.time.hour >= 6 and dt.time.hour < 11 and item.t_type == "Breakfast" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if dt.time.hour >= 11 and dt.time.hour < 16 and item.t_type == "Lunch" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+			{% if item.t_type == "All" %}
+            <div class="item-mainmenu m-b-36">
+                <div class="flex-w flex-b m-b-3">
+                    {{ item.name }}
+                    <div class="line-item-mainmenu bg3-pattern"></div>
+                    <div class="price-item-mainmenu txt22">
+                        ₹{{ item.price }}
+                    </div>
+                    <a href="{% url 'add_to_cart' item.id %}" class="name-item-mainmenu txt21">
+                        <button>+</button>
+                    </a>
+                </div>
+            </div>
+			{% endif %}
+        {% endif %}
+    {% endfor %}
 					</div>
 			</div>
 		</div>

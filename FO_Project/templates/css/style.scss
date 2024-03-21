@@ -8,7 +8,6 @@ $textCol: #999;
 @font-face {
   font-family: "bodoni svtytwo sc itc tt book";
   src: url(../fonts/bodoni-svtytwo-sc-itc-tt-book.ttf);
-
 }
 
 @mixin main-font {
@@ -189,6 +188,7 @@ a:focus {
 }
 
 .custom_menu-btn {
+  font-size: clamp(12px, 4 vw, 32px);
   z-index: 9;
   position: absolute;
   right: 0;
@@ -196,6 +196,7 @@ a:focus {
 }
 
 .custom_menu-btn button {
+  font-size: clamp(12px, 4 vw, 32px);
   outline: none;
   border: none;
   background-color: transparent;
@@ -204,16 +205,16 @@ a:focus {
 }
 
 .custom_menu-btn button img {
+  font-size: clamp(12px, 4 vw, 32px);
   width: 40px;
 }
 
 .menu_btn-style {
+  font-size: clamp(12px, 4 vw, 32px);
   position: fixed;
   right: 15px;
   top: 29px;
 }
-
-
 
 .overlay {
   height: 100%;
@@ -264,8 +265,6 @@ a:focus {
   opacity: 1;
 }
 
-
-
 /*end header section*/
 
 /* slider section */
@@ -295,7 +294,6 @@ a:focus {
       font-weight: bold;
       margin-bottom: 15px;
       @include secondary-font();
-
 
       span {
         color: $primary1;
@@ -360,7 +358,7 @@ a:focus {
     }
 
     .img-box {
-      transition: all .3s;
+      transition: all 0.3s;
       margin-left: 10px;
       margin-right: 10px;
 
@@ -377,19 +375,19 @@ a:focus {
       }
     }
 
-    .slick-active+.slick-active {
+    .slick-active + .slick-active {
       .img-box {
         margin-top: 0;
       }
     }
 
-    .slick-active+.slick-active+.slick-active {
+    .slick-active + .slick-active + .slick-active {
       .img-box {
         margin-top: 0;
       }
     }
 
-    .slick-active+.slick-active+.slick-active+.slick-active {
+    .slick-active + .slick-active + .slick-active + .slick-active {
       .img-box {
         margin-top: 45px;
       }
@@ -424,7 +422,7 @@ a:focus {
 
     .slick-prev:after {
       content: "\f060";
-      font-family: 'FontAwesome';
+      font-family: "FontAwesome";
     }
 
     .slick-next {
@@ -434,10 +432,8 @@ a:focus {
 
     .slick-next:after {
       content: "\f061";
-      font-family: 'FontAwesome';
+      font-family: "FontAwesome";
     }
-
-
   }
 }
 
@@ -462,9 +458,9 @@ a:focus {
       flex-direction: column;
       align-items: center;
       margin-top: 15px;
-h4{
-  @include secondary-font();
-}
+      h4 {
+        @include secondary-font();
+      }
       a {
         width: 45px;
         height: 45px;
@@ -651,8 +647,6 @@ h4{
       font-size: 24px;
       color: $primary1;
     }
-
-
   }
 
   .carousel-control-next {
@@ -749,8 +743,6 @@ h4{
       }
     }
   }
-
-
 }
 
 // end info section
